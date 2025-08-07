@@ -184,7 +184,17 @@ class MonteCarloEngine:
         use_multiprocessing: bool = False,  # Default to False to prevent hanging
         timeout_per_batch: int = 120
     ) -> SimulationSummary:
-        """Run multiple simulations and return summary statistics with advanced optimizations"""
+        """Run multiple simulations and return summary statistics with advanced optimizations
+        
+        Args:
+            num_simulations: Number of simulations to run
+            parallel: Whether to use parallel processing
+            max_workers: Number of worker threads/processes (None = auto-detect based on CPU)
+                        For high-core systems (128+ cores), auto-scales up to 256 workers
+            batch_size: Size of each simulation batch (None = auto-calculate)
+            use_multiprocessing: Use multiprocessing instead of threading (may hang)
+            timeout_per_batch: Timeout in seconds for each batch
+        """
         
         logger.info(f"🚀 Starting {num_simulations:,} simulations with optimized engine...")
         start_time = time.time()
@@ -345,22 +355,58 @@ class MonteCarloEngine:
         """Calculate optimal number of workers based on CPU count and workload"""
         cpu_cores = cpu_count()
         
-        if num_simulations < 1000:
-            return min(4, cpu_cores)
-        elif num_simulations < 10000:
-            return min(cpu_cores + 2, 12)
+        # For high-core systems, allow much higher worker counts
+        if cpu_cores >= 128:
+            # Use more workers for systems with many cores
+            if num_simulations < 1000:
+                return min(16, cpu_cores // 8)
+            elif num_simulations < 10000:
+                return min(32, cpu_cores // 4)
+            elif num_simulations < 100000:
+                return min(64, cpu_cores // 2)
+            else:
+                # For very large simulations on high-core systems
+                return min(cpu_cores, 256)  # Cap at number of threads
         else:
-            # For large workloads, use more aggressive threading for better throughput
-            return min(cpu_cores * 2, 16)
+            # Logic for normal systems (under 128 cores)
+            if num_simulations < 1000:
+                return min(4, cpu_cores)
+            elif num_simulations < 10000:
+                return min(cpu_cores, 32)  # Raised from 12
+            else:
+                # For large workloads, scale with available cores
+                # Allow up to 2x cores but with a reasonable cap
+                if cpu_cores >= 64:
+                    return min(cpu_cores * 2, 128)  # Higher cap for 64+ core systems
+                elif cpu_cores >= 32:
+                    return min(cpu_cores * 2, 64)   # Medium cap for 32+ core systems
+                else:
+                    return min(cpu_cores * 2, 32)   # Raised from 16 for smaller systems
             
     def _calculate_optimal_batch_size(self, num_simulations: int, max_workers: int) -> int:
         """Calculate optimal batch size to minimize overhead while maximizing throughput"""
         # Target: Each worker processes multiple batches to maintain utilization
         # But not too many tiny batches (overhead) or too few large batches (imbalance)
         
-        # Optimized batch sizing for better performance
-        base_batch = num_simulations // (max_workers * 6)  # 6 batches per worker
-        base_batch = max(200, min(base_batch, 1500))  # Optimized bounds
+        # Adjust batch size based on worker count
+        if max_workers >= 64:
+            # For high-core systems, use smaller batches for better parallelism
+            batches_per_worker = 4  # Fewer batches per worker
+            min_batch = 100
+            max_batch = 1000
+        elif max_workers >= 32:
+            # Medium parallelism
+            batches_per_worker = 5
+            min_batch = 150
+            max_batch = 1250
+        else:
+            # Original logic for normal systems
+            batches_per_worker = 6
+            min_batch = 200
+            max_batch = 1500
+        
+        base_batch = num_simulations // (max_workers * batches_per_worker)
+        base_batch = max(min_batch, min(base_batch, max_batch))
         
         return base_batch
         
