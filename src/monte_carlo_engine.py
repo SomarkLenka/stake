@@ -202,6 +202,11 @@ class MonteCarloEngine:
         # Optimize worker allocation and batch sizing
         if max_workers is None:
             max_workers = self._calculate_optimal_workers(num_simulations)
+            # Safety check: if auto-detected workers is very high, start conservative
+            if max_workers > 32:
+                logger.info(f"📊 System supports {max_workers} workers, starting with 16 for stability")
+                logger.info(f"💡 To use more workers, set max_workers explicitly (e.g., max_workers=64)")
+                max_workers = 16  # Start conservative
         if batch_size is None:
             batch_size = self._calculate_optimal_batch_size(num_simulations, max_workers)
             
@@ -354,6 +359,10 @@ class MonteCarloEngine:
     def _calculate_optimal_workers(self, num_simulations: int) -> int:
         """Calculate optimal number of workers based on CPU count and workload"""
         cpu_cores = cpu_count()
+        
+        # Check if we're on a system that might have threading issues
+        import platform
+        is_linux = platform.system() == 'Linux'
         
         # For high-core systems, allow much higher worker counts
         if cpu_cores >= 128:
@@ -592,15 +601,34 @@ class MonteCarloEngine:
         ) as executor:
             logger.info(f"🚀 Submitting {len(batches)} batches to thread pool...")
             
-            # Submit all batch jobs with seed offsets
+            # Submit all batch jobs with seed offsets - do it one by one to avoid blocking
             submission_start = time.time()
-            future_to_batch = {
-                executor.submit(self._run_threaded_batch, batch_ids, seed_offset=i): len(batch_ids)
-                for i, batch_ids in enumerate(batches)
-            }
+            future_to_batch = {}
+            
+            for i, batch_ids in enumerate(batches):
+                try:
+                    future = executor.submit(self._run_threaded_batch, batch_ids, seed_offset=i)
+                    future_to_batch[future] = len(batch_ids)
+                    
+                    # Check if submission is taking too long
+                    if i > 0 and i % 10 == 0:
+                        elapsed = time.time() - submission_start
+                        if elapsed > 5.0:  # If submission takes more than 5 seconds, something's wrong
+                            logger.warning(f"⚠️ Batch submission is slow ({i}/{len(batches)} in {elapsed:.1f}s)")
+                            logger.warning("Consider reducing max_workers or batch count")
+                            
+                except Exception as e:
+                    logger.error(f"Failed to submit batch {i}: {e}")
+                    break
             
             submission_time = time.time() - submission_start
-            logger.info(f"✅ All batches submitted in {submission_time:.2f}s, processing with {max_workers} threads...")
+            
+            if submission_time > 2.0:
+                logger.warning(f"⚠️ Batch submission took {submission_time:.2f}s (should be <2s)")
+            else:
+                logger.info(f"✅ All batches submitted in {submission_time:.2f}s")
+            
+            logger.info(f"🔄 Processing with {max_workers} threads...")
             
             # Collect results with efficient progress tracking
             completed_sims = 0
@@ -654,18 +682,26 @@ class MonteCarloEngine:
         """Run a batch of simulations in thread context with optimizations"""
         batch_results = []
         
-        # Set thread-specific seed for better randomness
-        thread_seed = hash(f"{time.time()}_{seed_offset}") % (2**32)
-        np.random.seed(thread_seed)
-        random.seed(thread_seed)
-        
-        for sim_id in batch_ids:
-            try:
-                # Use caching for better performance in threads
-                result = self._run_single_simulation(sim_id, use_cache=True)
-                batch_results.append(result)
-            except Exception as e:
-                logger.debug(f"Simulation {sim_id} failed: {e}")
+        try:
+            # Set thread-specific seed for better randomness
+            thread_seed = hash(f"{time.time()}_{seed_offset}") % (2**32)
+            np.random.seed(thread_seed)
+            random.seed(thread_seed)
+            
+            for sim_id in batch_ids:
+                try:
+                    # Use caching for better performance in threads
+                    result = self._run_single_simulation(sim_id, use_cache=True)
+                    batch_results.append(result)
+                except Exception as e:
+                    # Don't log in tight loop to avoid overhead
+                    batch_results.append(self._create_failed_result())
+                    
+        except Exception as e:
+            # Critical error in batch setup
+            logger.error(f"Batch failed during setup: {e}")
+            # Return failed results for entire batch
+            for _ in batch_ids:
                 batch_results.append(self._create_failed_result())
                 
         return batch_results
