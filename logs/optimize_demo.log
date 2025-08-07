@@ -1,0 +1,140 @@
+2025-08-07 23:45:05,370 - advanced_optimizer - INFO - Initialized AdvancedOptimizer
+2025-08-07 23:45:05,371 - advanced_optimizer - INFO - Optimization goal: balanced
+2025-08-07 23:45:05,371 - advanced_optimizer - INFO - Optimizing for TARGET SUCCESS RATE
+2025-08-07 23:45:05,371 - advanced_optimizer - INFO - Starting parameter optimization...
+2025-08-07 23:45:05,371 - advanced_optimizer - INFO - Generated 512 parameter combinations to test
+2025-08-07 23:45:32,724 - advanced_optimizer - INFO - Progress: 10/512 (2.0%) - Rate: 0.4/sec - ETA: 1373s
+2025-08-07 23:45:32,749 - advanced_optimizer - INFO - Best score so far: 0.5544
+2025-08-07 23:45:57,414 - advanced_optimizer - INFO - Progress: 20/512 (3.9%) - Rate: 0.4/sec - ETA: 1280s
+2025-08-07 23:45:57,534 - advanced_optimizer - INFO - Best score so far: 0.5544
+2025-08-07 23:46:04,605 - advanced_optimizer - INFO - Progress: 30/512 (5.9%) - Rate: 0.5/sec - ETA: 952s
+2025-08-07 23:46:04,737 - advanced_optimizer - INFO - Best score so far: 0.5736
+2025-08-07 23:46:21,196 - advanced_optimizer - INFO - Progress: 40/512 (7.8%) - Rate: 0.5/sec - ETA: 895s
+2025-08-07 23:46:21,197 - advanced_optimizer - INFO - Best score so far: 0.5736
+2025-08-07 23:46:32,915 - advanced_optimizer - INFO - Progress: 50/512 (9.8%) - Rate: 0.6/sec - ETA: 809s
+2025-08-07 23:46:32,916 - advanced_optimizer - INFO - Best score so far: 0.5736
+2025-08-07 23:46:35,941 - advanced_optimizer - INFO - Progress: 60/512 (11.7%) - Rate: 0.7/sec - ETA: 682s
+2025-08-07 23:46:35,941 - advanced_optimizer - INFO - Best score so far: 0.5976
+2025-08-07 23:46:44,843 - advanced_optimizer - INFO - Progress: 70/512 (13.7%) - Rate: 0.7/sec - ETA: 628s
+2025-08-07 23:46:45,031 - advanced_optimizer - INFO - Best score so far: 0.5976
+2025-08-07 23:46:53,809 - advanced_optimizer - INFO - Progress: 80/512 (15.6%) - Rate: 0.7/sec - ETA: 586s
+2025-08-07 23:46:53,820 - advanced_optimizer - INFO - Best score so far: 0.5976
+2025-08-07 23:46:58,291 - advanced_optimizer - INFO - Progress: 90/512 (17.6%) - Rate: 0.8/sec - ETA: 529s
+2025-08-07 23:46:58,293 - advanced_optimizer - INFO - Best score so far: 0.5976
+2025-08-07 23:47:02,863 - advanced_optimizer - INFO - Progress: 100/512 (19.5%) - Rate: 0.9/sec - ETA: 484s
+2025-08-07 23:47:02,877 - advanced_optimizer - INFO - Best score so far: 0.5976
+2025-08-07 23:47:04,674 - advanced_optimizer - INFO - Progress: 110/512 (21.5%) - Rate: 0.9/sec - ETA: 436s
+2025-08-07 23:47:04,675 - advanced_optimizer - INFO - Best score so far: 0.5976
+2025-08-07 23:47:09,392 - advanced_optimizer - INFO - Progress: 120/512 (23.4%) - Rate: 1.0/sec - ETA: 405s
+2025-08-07 23:47:09,394 - advanced_optimizer - INFO - Best score so far: 0.5976
+2025-08-07 23:47:12,016 - advanced_optimizer - INFO - Progress: 130/512 (25.4%) - Rate: 1.0/sec - ETA: 372s
+2025-08-07 23:47:12,017 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:16,229 - advanced_optimizer - INFO - Progress: 140/512 (27.3%) - Rate: 1.1/sec - ETA: 348s
+2025-08-07 23:47:16,286 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:19,847 - advanced_optimizer - INFO - Progress: 150/512 (29.3%) - Rate: 1.1/sec - ETA: 325s
+2025-08-07 23:47:19,848 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:21,671 - advanced_optimizer - INFO - Progress: 160/512 (31.2%) - Rate: 1.2/sec - ETA: 300s
+2025-08-07 23:47:21,672 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:23,773 - advanced_optimizer - INFO - Progress: 170/512 (33.2%) - Rate: 1.2/sec - ETA: 278s
+2025-08-07 23:47:23,773 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:26,171 - advanced_optimizer - INFO - Progress: 180/512 (35.2%) - Rate: 1.3/sec - ETA: 260s
+2025-08-07 23:47:26,262 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:26,624 - advanced_optimizer - INFO - Progress: 190/512 (37.1%) - Rate: 1.3/sec - ETA: 239s
+2025-08-07 23:47:26,627 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:29,773 - advanced_optimizer - INFO - Progress: 200/512 (39.1%) - Rate: 1.4/sec - ETA: 225s
+2025-08-07 23:47:29,774 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:31,831 - advanced_optimizer - INFO - Progress: 210/512 (41.0%) - Rate: 1.4/sec - ETA: 211s
+2025-08-07 23:47:31,834 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:33,236 - advanced_optimizer - INFO - Progress: 220/512 (43.0%) - Rate: 1.5/sec - ETA: 196s
+2025-08-07 23:47:33,236 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:34,884 - advanced_optimizer - INFO - Progress: 230/512 (44.9%) - Rate: 1.5/sec - ETA: 183s
+2025-08-07 23:47:34,884 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:36,144 - advanced_optimizer - INFO - Progress: 240/512 (46.9%) - Rate: 1.6/sec - ETA: 171s
+2025-08-07 23:47:36,163 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:36,870 - advanced_optimizer - INFO - Progress: 250/512 (48.8%) - Rate: 1.7/sec - ETA: 159s
+2025-08-07 23:47:36,871 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:38,856 - advanced_optimizer - INFO - Progress: 260/512 (50.8%) - Rate: 1.7/sec - ETA: 149s
+2025-08-07 23:47:38,856 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:39,848 - advanced_optimizer - INFO - Progress: 270/512 (52.7%) - Rate: 1.7/sec - ETA: 138s
+2025-08-07 23:47:39,848 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:41,234 - advanced_optimizer - INFO - Progress: 280/512 (54.7%) - Rate: 1.8/sec - ETA: 129s
+2025-08-07 23:47:41,234 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:42,491 - advanced_optimizer - INFO - Progress: 290/512 (56.6%) - Rate: 1.8/sec - ETA: 120s
+2025-08-07 23:47:42,509 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:42,921 - advanced_optimizer - INFO - Progress: 300/512 (58.6%) - Rate: 1.9/sec - ETA: 111s
+2025-08-07 23:47:42,921 - advanced_optimizer - INFO - Best score so far: 0.6120
+2025-08-07 23:47:44,032 - advanced_optimizer - INFO - Progress: 310/512 (60.5%) - Rate: 2.0/sec - ETA: 103s
+2025-08-07 23:47:44,032 - advanced_optimizer - INFO - Best score so far: 0.6144
+2025-08-07 23:47:44,429 - advanced_optimizer - INFO - Progress: 320/512 (62.5%) - Rate: 2.0/sec - ETA: 95s
+2025-08-07 23:47:44,430 - advanced_optimizer - INFO - Best score so far: 0.6144
+2025-08-07 23:47:45,875 - advanced_optimizer - INFO - Progress: 330/512 (64.5%) - Rate: 2.1/sec - ETA: 89s
+2025-08-07 23:47:46,008 - advanced_optimizer - INFO - Best score so far: 0.6144
+2025-08-07 23:47:47,084 - advanced_optimizer - INFO - Progress: 340/512 (66.4%) - Rate: 2.1/sec - ETA: 82s
+2025-08-07 23:47:47,085 - advanced_optimizer - INFO - Best score so far: 0.6144
+2025-08-07 23:47:47,552 - advanced_optimizer - INFO - Progress: 350/512 (68.4%) - Rate: 2.2/sec - ETA: 75s
+2025-08-07 23:47:47,553 - advanced_optimizer - INFO - Best score so far: 0.6144
+2025-08-07 23:47:48,480 - advanced_optimizer - INFO - Progress: 360/512 (70.3%) - Rate: 2.2/sec - ETA: 69s
+2025-08-07 23:47:48,480 - advanced_optimizer - INFO - Best score so far: 0.6144
+2025-08-07 23:47:49,126 - advanced_optimizer - INFO - Progress: 370/512 (72.3%) - Rate: 2.3/sec - ETA: 63s
+2025-08-07 23:47:49,127 - advanced_optimizer - INFO - Best score so far: 0.6144
+2025-08-07 23:47:49,696 - advanced_optimizer - INFO - Progress: 380/512 (74.2%) - Rate: 2.3/sec - ETA: 57s
+2025-08-07 23:47:49,696 - advanced_optimizer - INFO - Best score so far: 0.6144
+2025-08-07 23:47:50,484 - advanced_optimizer - INFO - Progress: 390/512 (76.2%) - Rate: 2.4/sec - ETA: 52s
+2025-08-07 23:47:50,484 - advanced_optimizer - INFO - Best score so far: 0.6144
+2025-08-07 23:47:51,417 - advanced_optimizer - INFO - Progress: 400/512 (78.1%) - Rate: 2.4/sec - ETA: 46s
+2025-08-07 23:47:51,418 - advanced_optimizer - INFO - Best score so far: 0.6144
+2025-08-07 23:47:51,943 - advanced_optimizer - INFO - Progress: 410/512 (80.1%) - Rate: 2.5/sec - ETA: 41s
+2025-08-07 23:47:51,944 - advanced_optimizer - INFO - Best score so far: 0.6144
+2025-08-07 23:47:52,506 - advanced_optimizer - INFO - Progress: 420/512 (82.0%) - Rate: 2.5/sec - ETA: 37s
+2025-08-07 23:47:52,506 - advanced_optimizer - INFO - Best score so far: 0.6192
+2025-08-07 23:47:52,759 - advanced_optimizer - INFO - Progress: 430/512 (84.0%) - Rate: 2.6/sec - ETA: 32s
+2025-08-07 23:47:52,760 - advanced_optimizer - INFO - Best score so far: 0.6192
+2025-08-07 23:47:53,279 - advanced_optimizer - INFO - Progress: 440/512 (85.9%) - Rate: 2.6/sec - ETA: 27s
+2025-08-07 23:47:53,279 - advanced_optimizer - INFO - Best score so far: 0.6192
+2025-08-07 23:47:53,877 - advanced_optimizer - INFO - Progress: 450/512 (87.9%) - Rate: 2.7/sec - ETA: 23s
+2025-08-07 23:47:53,877 - advanced_optimizer - INFO - Best score so far: 0.6192
+2025-08-07 23:47:54,305 - advanced_optimizer - INFO - Progress: 460/512 (89.8%) - Rate: 2.7/sec - ETA: 19s
+2025-08-07 23:47:54,306 - advanced_optimizer - INFO - Best score so far: 0.6192
+2025-08-07 23:47:54,796 - advanced_optimizer - INFO - Progress: 470/512 (91.8%) - Rate: 2.8/sec - ETA: 15s
+2025-08-07 23:47:54,796 - advanced_optimizer - INFO - Best score so far: 0.6192
+2025-08-07 23:47:55,007 - advanced_optimizer - INFO - Progress: 480/512 (93.8%) - Rate: 2.8/sec - ETA: 11s
+2025-08-07 23:47:55,015 - advanced_optimizer - INFO - Best score so far: 0.6192
+2025-08-07 23:47:55,482 - advanced_optimizer - INFO - Progress: 490/512 (95.7%) - Rate: 2.9/sec - ETA: 8s
+2025-08-07 23:47:55,482 - advanced_optimizer - INFO - Best score so far: 0.6192
+2025-08-07 23:47:55,886 - advanced_optimizer - INFO - Progress: 500/512 (97.7%) - Rate: 2.9/sec - ETA: 4s
+2025-08-07 23:47:55,886 - advanced_optimizer - INFO - Best score so far: 0.6192
+2025-08-07 23:47:56,086 - advanced_optimizer - INFO - Progress: 510/512 (99.6%) - Rate: 3.0/sec - ETA: 1s
+2025-08-07 23:47:56,087 - advanced_optimizer - INFO - Best score so far: 0.6192
+2025-08-07 23:47:56,088 - advanced_optimizer - INFO - Progress: 512/512 (100.0%) - Rate: 3.0/sec - ETA: 0s
+2025-08-07 23:47:56,088 - advanced_optimizer - INFO - Best score so far: 0.6192
+2025-08-07 23:47:56,088 - advanced_optimizer - INFO - Optimization completed in 170.7 seconds
+2025-08-07 23:47:56,088 - advanced_optimizer - INFO - Evaluated 512 parameter combinations
+2025-08-07 23:47:56,088 - advanced_optimizer - INFO - Optimizing for SURVIVAL RATE
+2025-08-07 23:47:56,088 - advanced_optimizer - INFO - Starting parameter optimization...
+2025-08-07 23:47:56,088 - advanced_optimizer - INFO - Generated 512 parameter combinations to test
+2025-08-07 23:48:25,885 - advanced_optimizer - INFO - Progress: 10/512 (2.0%) - Rate: 0.3/sec - ETA: 1496s
+2025-08-07 23:48:25,886 - advanced_optimizer - INFO - Best score so far: 0.5682
+2025-08-07 23:48:47,511 - advanced_optimizer - INFO - Progress: 20/512 (3.9%) - Rate: 0.4/sec - ETA: 1265s
+2025-08-07 23:48:47,640 - advanced_optimizer - INFO - Best score so far: 0.6110
+2025-08-07 23:48:57,137 - advanced_optimizer - INFO - Progress: 30/512 (5.9%) - Rate: 0.5/sec - ETA: 981s
+2025-08-07 23:48:57,185 - advanced_optimizer - INFO - Best score so far: 0.6500
+2025-08-07 23:49:11,447 - advanced_optimizer - INFO - Progress: 40/512 (7.8%) - Rate: 0.5/sec - ETA: 889s
+2025-08-07 23:49:11,450 - advanced_optimizer - INFO - Best score so far: 0.6500
+2025-08-07 23:49:22,917 - advanced_optimizer - INFO - Progress: 50/512 (9.8%) - Rate: 0.6/sec - ETA: 802s
+2025-08-07 23:49:22,928 - advanced_optimizer - INFO - Best score so far: 0.6552
+2025-08-07 23:49:25,804 - advanced_optimizer - INFO - Progress: 60/512 (11.7%) - Rate: 0.7/sec - ETA: 676s
+2025-08-07 23:49:25,804 - advanced_optimizer - INFO - Best score so far: 0.6552
+2025-08-07 23:49:36,360 - advanced_optimizer - INFO - Progress: 70/512 (13.7%) - Rate: 0.7/sec - ETA: 633s
+2025-08-07 23:49:36,362 - advanced_optimizer - INFO - Best score so far: 0.6630
+2025-08-07 23:49:43,842 - advanced_optimizer - INFO - Progress: 80/512 (15.6%) - Rate: 0.7/sec - ETA: 582s
+2025-08-07 23:49:43,884 - advanced_optimizer - INFO - Best score so far: 0.6630
+2025-08-07 23:49:47,370 - advanced_optimizer - INFO - Progress: 90/512 (17.6%) - Rate: 0.8/sec - ETA: 522s
+2025-08-07 23:49:47,370 - advanced_optimizer - INFO - Best score so far: 0.6630
+2025-08-07 23:49:52,859 - advanced_optimizer - INFO - Progress: 100/512 (19.5%) - Rate: 0.9/sec - ETA: 481s
+2025-08-07 23:49:52,862 - advanced_optimizer - INFO - Best score so far: 0.6760
+2025-08-07 23:49:55,209 - advanced_optimizer - INFO - Progress: 110/512 (21.5%) - Rate: 0.9/sec - ETA: 435s
+2025-08-07 23:49:55,215 - advanced_optimizer - INFO - Best score so far: 0.6760
+2025-08-07 23:49:58,925 - advanced_optimizer - INFO - Progress: 120/512 (23.4%) - Rate: 1.0/sec - ETA: 401s
+2025-08-07 23:49:58,926 - advanced_optimizer - INFO - Best score so far: 0.6760
+2025-08-07 23:50:01,529 - advanced_optimizer - INFO - Progress: 130/512 (25.4%) - Rate: 1.0/sec - ETA: 369s
+2025-08-07 23:50:01,529 - advanced_optimizer - INFO - Best score so far: 0.6760

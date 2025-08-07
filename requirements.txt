@@ -1,0 +1,8 @@
+# Core dependencies for Monte Carlo betting simulation system
+numpy>=1.24.0,<2.0.0
+
+# Optional: For potential future enhancements
+# pandas>=2.0.0,<3.0.0  # For data analysis and reporting
+# matplotlib>=3.7.0,<4.0.0  # For visualization of results
+# scipy>=1.10.0,<2.0.0  # For advanced statistical analysis
+# plotly>=5.14.0,<6.0.0  # For interactive visualizations

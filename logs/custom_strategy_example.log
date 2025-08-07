@@ -1,0 +1,14 @@
+2025-08-07 22:50:06,669 - probability_engine - INFO - Initialized ProbabilityEngine
+2025-08-07 22:50:06,669 - probability_engine - INFO - Running simulation with strategy: custom
+2025-08-07 22:50:06,669 - probability_engine - INFO - Parameters: bankroll=$1000, bet=$10, target=$2000, P(win)=49.00%
+2025-08-07 22:50:08,763 - probability_engine - INFO - Running simulation with strategy: custom
+2025-08-07 22:50:08,763 - probability_engine - INFO - Parameters: bankroll=$1000, bet=$10, target=$2000, P(win)=50.00%
+2025-08-07 22:50:11,816 - probability_engine - INFO - Testing strategy: Your Original (Streak Multiplier)
+2025-08-07 22:50:11,816 - probability_engine - INFO - Running simulation with strategy: streak_multiplier
+2025-08-07 22:50:11,816 - probability_engine - INFO - Parameters: bankroll=$1000, bet=$10, target=$2000, P(win)=49.00%
+2025-08-07 22:50:11,929 - probability_engine - INFO - Testing strategy: Fibonacci-Inspired
+2025-08-07 22:50:11,929 - probability_engine - INFO - Running simulation with strategy: custom
+2025-08-07 22:50:11,929 - probability_engine - INFO - Parameters: bankroll=$1000, bet=$10, target=$2000, P(win)=49.00%
+2025-08-07 22:50:12,759 - probability_engine - INFO - Testing strategy: Classic Martingale
+2025-08-07 22:50:12,759 - probability_engine - INFO - Running simulation with strategy: martingale
+2025-08-07 22:50:12,759 - probability_engine - INFO - Parameters: bankroll=$1000, bet=$10, target=$2000, P(win)=49.00%

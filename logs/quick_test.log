@@ -1,0 +1,8 @@
+2025-08-07 23:50:50,236 - advanced_optimizer - INFO - Initialized AdvancedOptimizer
+2025-08-07 23:50:50,236 - advanced_optimizer - INFO - Optimization goal: balanced
+2025-08-07 23:50:50,236 - advanced_optimizer - INFO - Starting parameter optimization...
+2025-08-07 23:50:50,236 - advanced_optimizer - INFO - Generated 2 parameter combinations to test
+2025-08-07 23:50:50,304 - advanced_optimizer - INFO - Progress: 2/2 (100.0%) - Rate: 29.6/sec - ETA: 0s
+2025-08-07 23:50:50,304 - advanced_optimizer - INFO - Best score so far: 0.5000
+2025-08-07 23:50:50,304 - advanced_optimizer - INFO - Optimization completed in 0.1 seconds
+2025-08-07 23:50:50,304 - advanced_optimizer - INFO - Evaluated 2 parameter combinations

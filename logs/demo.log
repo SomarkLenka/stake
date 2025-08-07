@@ -1,0 +1,12 @@
+2025-08-07 22:42:59,215 - probability_engine - INFO - Initialized ProbabilityEngine
+2025-08-07 22:42:59,215 - probability_engine - INFO - Running simulation with strategy: streak_multiplier
+2025-08-07 22:42:59,215 - probability_engine - INFO - Parameters: bankroll=$1000, bet=$10, target=$2000, P(win)=49.00%
+2025-08-07 22:43:00,596 - probability_engine - INFO - Testing strategy: Your Requested Strategy (2x/1.5x)
+2025-08-07 22:43:00,596 - probability_engine - INFO - Running simulation with strategy: streak_multiplier
+2025-08-07 22:43:00,596 - probability_engine - INFO - Parameters: bankroll=$1000, bet=$10, target=$2000, P(win)=49.00%
+2025-08-07 22:43:01,211 - probability_engine - INFO - Testing strategy: Conservative (1.5x/1.2x)
+2025-08-07 22:43:01,212 - probability_engine - INFO - Running simulation with strategy: streak_multiplier
+2025-08-07 22:43:01,212 - probability_engine - INFO - Parameters: bankroll=$1000, bet=$10, target=$2000, P(win)=49.00%
+2025-08-07 22:43:03,995 - probability_engine - INFO - Testing strategy: Classic Martingale
+2025-08-07 22:43:03,995 - probability_engine - INFO - Running simulation with strategy: martingale
+2025-08-07 22:43:03,995 - probability_engine - INFO - Parameters: bankroll=$1000, bet=$10, target=$2000, P(win)=49.00%

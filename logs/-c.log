@@ -1,0 +1,12 @@
+2025-08-07 23:53:38,670 - monte_carlo_engine_optimized - INFO - Initialized OptimizedMonteCarloEngine with StreakMultiplierStrategy
+2025-08-07 23:53:38,670 - monte_carlo_engine_optimized - INFO - Max rounds: 1000, Optimization level: MAXIMUM
+2025-08-07 23:53:38,670 - monte_carlo_engine_optimized - INFO - 🚀 Starting OPTIMIZED simulation run: 100,000 simulations
+2025-08-07 23:53:38,670 - monte_carlo_engine_optimized - INFO - ⚙️ Configuration: 16 workers, 1041 batch size
+2025-08-07 23:53:38,671 - monte_carlo_engine_optimized - INFO - 📊 Created 97 batches for parallel processing
+2025-08-07 23:53:58,103 - monte_carlo_engine_optimized - INFO - 📈 Progress: 20,820/100,000 (20.8%)
+2025-08-07 23:54:07,900 - monte_carlo_engine_optimized - INFO - 📈 Progress: 41,640/100,000 (41.6%)
+2025-08-07 23:54:17,570 - monte_carlo_engine_optimized - INFO - 📈 Progress: 62,460/100,000 (62.5%)
+2025-08-07 23:54:27,318 - monte_carlo_engine_optimized - INFO - 📈 Progress: 83,280/100,000 (83.3%)
+2025-08-07 23:54:37,136 - monte_carlo_engine_optimized - INFO - ✅ Completed 100,000 simulations in 58.46s
+2025-08-07 23:54:37,138 - monte_carlo_engine_optimized - INFO - ⚡ THROUGHPUT: 1,710 simulations/second
+2025-08-07 23:54:37,205 - monte_carlo_engine_optimized - INFO - 📊 Results: Survival=40.4%, Target=30.5%
