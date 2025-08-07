@@ -203,9 +203,23 @@ class MonteCarloEngine:
             # Try multiprocessing first for CPU-bound work, fall back to threading if needed
             if use_multiprocessing and num_simulations >= 1000:
                 try:
-                    results = self._run_multiprocessing_simulations(
-                        num_simulations, max_workers, batch_size, timeout_per_batch
-                    )
+                    # Check if we're in a context where multiprocessing might hang
+                    if hasattr(sys, '_getframe'):
+                        # Check if we're being run from a spawned process
+                        frame = sys._getframe()
+                        if '<string>' in str(frame.f_code.co_filename):
+                            logger.info("Detected execution from console/eval, using threading instead of multiprocessing")
+                            results = self._run_threaded_simulations(
+                                num_simulations, max_workers, batch_size
+                            )
+                        else:
+                            results = self._run_multiprocessing_simulations(
+                                num_simulations, max_workers, batch_size, timeout_per_batch
+                            )
+                    else:
+                        results = self._run_multiprocessing_simulations(
+                            num_simulations, max_workers, batch_size, timeout_per_batch
+                        )
                 except Exception as e:
                     logger.warning(f"Multiprocessing failed ({e}), falling back to threading")
                     results = self._run_threaded_simulations(
@@ -419,60 +433,88 @@ class MonteCarloEngine:
             max_failures = len(batches) // 2  # If more than half fail, abort
             last_progress_time = time.time()
             progress_interval = 5.0  # Report progress every 5 seconds if no batches complete
+            initial_wait_time = 10.0  # Wait up to 10 seconds for first result
+            start_wait = time.time()
+            got_first_result = False
             
-            for future in as_completed(future_to_batch, timeout=timeout * len(batches)):
-                try:
-                    batch_dict_results = future.result(timeout=timeout)
-                    # Convert dictionaries back to SimulationResult objects
-                    batch_results = [self._dict_to_simulation_result(d) for d in batch_dict_results]
-                    results.extend(batch_results)
-                    completed_sims += future_to_batch[future]
-                    completed_batches += 1
+            # Use a shorter timeout for initial results to detect hanging quickly
+            batch_timeout = min(timeout, 30)  # 30 seconds max per batch
+            total_timeout = batch_timeout * len(batches)
+            
+            try:
+                for future in as_completed(future_to_batch, timeout=total_timeout):
+                    # Check if this is the first result
+                    if not got_first_result:
+                        got_first_result = True
+                        wait_time = time.time() - start_wait
+                        logger.info(f"🎯 First batch completed after {wait_time:.1f}s")
                     
-                    # Progress updates with batch information
-                    current_time = time.time()
-                    if completed_sims % (batch_size * 5) == 0 or completed_sims >= num_simulations:
-                        elapsed = current_time - submission_start
-                        rate = completed_sims / elapsed if elapsed > 0 else 0
-                        eta = (num_simulations - completed_sims) / rate if rate > 0 else 0
-                        logger.info(f"📊 Progress: {completed_sims:,}/{num_simulations:,} ({completed_sims/num_simulations:.1%}) | "
-                                  f"Batches: {completed_batches}/{len(batches)} | "
-                                  f"Rate: {rate:.0f}/sec | ETA: {eta:.1f}s")
-                        last_progress_time = current_time
-                    
-                    # Also log if it's been too long since last update
-                    elif current_time - last_progress_time > progress_interval:
-                        elapsed = current_time - submission_start
-                        rate = completed_sims / elapsed if elapsed > 0 else 0
-                        logger.info(f"⏳ Still processing... {completed_batches}/{len(batches)} batches done, "
-                                  f"{completed_sims:,} simulations completed ({rate:.0f}/sec)")
-                        last_progress_time = current_time
+                    try:
+                        batch_dict_results = future.result(timeout=batch_timeout)
+                        # Convert dictionaries back to SimulationResult objects
+                        batch_results = [self._dict_to_simulation_result(d) for d in batch_dict_results]
+                        results.extend(batch_results)
+                        completed_sims += future_to_batch[future]
+                        completed_batches += 1
                         
-                except TimeoutError:
-                    failed_batches += 1
-                    if failed_batches <= 3:  # Only log first few failures
-                        logger.debug(f"Batch timed out after {timeout}s")
-                    # Add placeholder results for failed batch
-                    batch_size_failed = future_to_batch[future]
-                    for _ in range(batch_size_failed):
-                        results.append(self._create_failed_result())
-                    
-                    if failed_batches > max_failures:
-                        logger.warning("Too many multiprocessing failures, aborting remaining batches")
-                        raise RuntimeError("Multiprocessing unstable")
+                        # Progress updates with batch information
+                        current_time = time.time()
+                        if completed_sims % (batch_size * 5) == 0 or completed_sims >= num_simulations:
+                            elapsed = current_time - submission_start
+                            rate = completed_sims / elapsed if elapsed > 0 else 0
+                            eta = (num_simulations - completed_sims) / rate if rate > 0 else 0
+                            logger.info(f"📊 Progress: {completed_sims:,}/{num_simulations:,} ({completed_sims/num_simulations:.1%}) | "
+                                      f"Batches: {completed_batches}/{len(batches)} | "
+                                      f"Rate: {rate:.0f}/sec | ETA: {eta:.1f}s")
+                            last_progress_time = current_time
                         
-                except Exception as e:
-                    failed_batches += 1
-                    if failed_batches <= 3:  # Only log first few failures
-                        logger.debug(f"Batch processing error: {e}")
-                    # Add placeholder results for failed batch  
-                    batch_size_failed = future_to_batch[future]
-                    for _ in range(batch_size_failed):
-                        results.append(self._create_failed_result())
-                    
-                    if failed_batches > max_failures:
-                        logger.warning("Too many multiprocessing failures, aborting remaining batches")
-                        raise RuntimeError("Multiprocessing unstable")
+                        # Also log if it's been too long since last update
+                        elif current_time - last_progress_time > progress_interval:
+                            elapsed = current_time - submission_start
+                            rate = completed_sims / elapsed if elapsed > 0 else 0
+                            logger.info(f"⏳ Still processing... {completed_batches}/{len(batches)} batches done, "
+                                      f"{completed_sims:,} simulations completed ({rate:.0f}/sec)")
+                            last_progress_time = current_time
+                        
+                    except TimeoutError:
+                        failed_batches += 1
+                        if failed_batches <= 3:  # Only log first few failures
+                            logger.debug(f"Batch timed out after {batch_timeout}s")
+                        # Add placeholder results for failed batch
+                        batch_size_failed = future_to_batch[future]
+                        for _ in range(batch_size_failed):
+                            results.append(self._create_failed_result())
+                        
+                        if failed_batches > max_failures:
+                            logger.warning("Too many multiprocessing failures, aborting remaining batches")
+                            raise RuntimeError("Multiprocessing unstable")
+                            
+                    except Exception as e:
+                        failed_batches += 1
+                        if failed_batches <= 3:  # Only log first few failures
+                            logger.debug(f"Batch processing error: {e}")
+                        # Add placeholder results for failed batch  
+                        batch_size_failed = future_to_batch[future]
+                        for _ in range(batch_size_failed):
+                            results.append(self._create_failed_result())
+                        
+                        if failed_batches > max_failures:
+                            logger.warning("Too many multiprocessing failures, aborting remaining batches")
+                            raise RuntimeError("Multiprocessing unstable")
+                            
+            except TimeoutError:
+                # Check if we got any results at all
+                if not got_first_result:
+                    logger.error(f"⚠️ No batches completed after {initial_wait_time}s - multiprocessing appears to be hanging")
+                    logger.warning("Aborting multiprocessing, will fall back to threading")
+                    raise RuntimeError("Multiprocessing hanging - no results received")
+                else:
+                    logger.warning(f"Timeout waiting for remaining batches (got {completed_batches}/{len(batches)})")
+                    # Return partial results if we got some
+                    if results:
+                        logger.info(f"Returning {len(results)} partial results")
+                        return results
+                    raise
                         
         return results
         
