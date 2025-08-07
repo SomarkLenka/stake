@@ -181,7 +181,7 @@ class MonteCarloEngine:
         parallel: bool = True,
         max_workers: Optional[int] = None,
         batch_size: Optional[int] = None,
-        use_multiprocessing: bool = True,
+        use_multiprocessing: bool = False,  # Default to False to prevent hanging
         timeout_per_batch: int = 120
     ) -> SimulationSummary:
         """Run multiple simulations and return summary statistics with advanced optimizations"""
@@ -200,15 +200,17 @@ class MonteCarloEngine:
         results: List[SimulationResult] = []
         
         if parallel and num_simulations > 100:
-            # Try multiprocessing first for CPU-bound work, fall back to threading if needed
+            # Default to threading unless multiprocessing is explicitly requested
             if use_multiprocessing and num_simulations >= 1000:
+                logger.info("⚠️ Multiprocessing requested - this may hang in some environments")
+                logger.info("💡 If hanging occurs, set use_multiprocessing=False (default)")
                 try:
                     # Check if we're in a context where multiprocessing might hang
                     if hasattr(sys, '_getframe'):
                         # Check if we're being run from a spawned process
                         frame = sys._getframe()
                         if '<string>' in str(frame.f_code.co_filename):
-                            logger.info("Detected execution from console/eval, using threading instead of multiprocessing")
+                            logger.info("Detected execution from console/eval, using threading instead")
                             results = self._run_threaded_simulations(
                                 num_simulations, max_workers, batch_size
                             )
@@ -226,6 +228,7 @@ class MonteCarloEngine:
                         num_simulations, max_workers, batch_size
                     )
             else:
+                logger.info("🔄 Using optimized threading (multiprocessing disabled for stability)")
                 results = self._run_threaded_simulations(
                     num_simulations, max_workers, batch_size
                 )
@@ -535,33 +538,47 @@ class MonteCarloEngine:
             batch_ids = list(range(i, batch_end))
             batches.append(batch_ids)
         
-        logger.info(f"Created {len(batches)} batches for threaded processing")
+        logger.info(f"📦 Created {len(batches)} batches for threaded processing")
         
         with ThreadPoolExecutor(
             max_workers=max_workers,
             thread_name_prefix="MCOptim"
         ) as executor:
+            logger.info(f"🚀 Submitting {len(batches)} batches to thread pool...")
+            
             # Submit all batch jobs with seed offsets
+            submission_start = time.time()
             future_to_batch = {
                 executor.submit(self._run_threaded_batch, batch_ids, seed_offset=i): len(batch_ids)
                 for i, batch_ids in enumerate(batches)
             }
             
+            submission_time = time.time() - submission_start
+            logger.info(f"✅ All batches submitted in {submission_time:.2f}s, processing with {max_workers} threads...")
+            
             # Collect results with efficient progress tracking
             completed_sims = 0
+            completed_batches = 0
             last_progress = 0
-            progress_interval = 10000
+            progress_interval = max(1000, num_simulations // 20)  # Report at 5% intervals
+            start_time = time.time()
             
             for future in as_completed(future_to_batch):
                 try:
                     batch_results = future.result()
                     results.extend(batch_results)
                     completed_sims += future_to_batch[future]
+                    completed_batches += 1
                     
                     # Efficient progress reporting
-                    if completed_sims - last_progress >= progress_interval:
+                    if completed_sims - last_progress >= progress_interval or completed_sims >= num_simulations:
+                        elapsed = time.time() - start_time
+                        rate = completed_sims / elapsed if elapsed > 0 else 0
+                        eta = (num_simulations - completed_sims) / rate if rate > 0 else 0
                         progress = completed_sims / num_simulations * 100
-                        logger.info(f"Progress: {completed_sims:,}/{num_simulations:,} ({progress:.1f}%)")
+                        logger.info(f"📊 Threading Progress: {completed_sims:,}/{num_simulations:,} ({progress:.1f}%) | "
+                                  f"Batches: {completed_batches}/{len(batches)} | "
+                                  f"Rate: {rate:.0f}/sec | ETA: {eta:.1f}s")
                         last_progress = completed_sims
                         
                 except Exception as e:
